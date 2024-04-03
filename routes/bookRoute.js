@@ -8,3 +8,5 @@ bookRouter.get('/books/:id', getBookById)
 bookRouter.post('/books', addNewBook)
 bookRouter.patch('/books/:id', updateBook)
 bookRouter.delete('/books/:id', deleteBook)
+
+module.exports = bookRouter
