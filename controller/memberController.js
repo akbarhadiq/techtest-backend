@@ -70,5 +70,5 @@ const deleteMember = async(req,res)=>{
 }
 
 module.exports = {
-    createMember, deleteMember
+    getAllMember, getMemberById, createMember, deleteMember
 }
