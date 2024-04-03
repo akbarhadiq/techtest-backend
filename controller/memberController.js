@@ -16,11 +16,12 @@ const getAllMember = async(req,res) => {
 }
 
 const getMemberById = async(req,res)=>{
-    const id = req.params
+    const {id} = req.params
+
     try{
         const member = await prisma.member.findMany({
             where:{
-                member_id:id
+                member_id:parseInt(id)
             }
         })
 
