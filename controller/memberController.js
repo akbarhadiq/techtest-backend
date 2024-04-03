@@ -59,7 +59,7 @@ const deleteMember = async(req,res)=>{
     try{
         await prisma.member.delete({
             where:{
-                member_id:id
+                member_id:parseInt(id)
             }
         })
 
