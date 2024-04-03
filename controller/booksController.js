@@ -13,7 +13,7 @@ const getAllBooks = async(req,res)=>{
 }
 
 const getBookById = async(req,res) => {
-    const id = req.params
+    const {id} = req.params
     try{
         const book = await prisma.book.findMany({
             where:{
@@ -69,7 +69,7 @@ const addNewBook = async(req,res) => {
 }
 
 const updateBook = async(req,res) => {
-    const id = req.params
+    const {id} = req.params
     const {title, stock,code} = req.body
 
     try{
@@ -103,7 +103,7 @@ const updateBook = async(req,res) => {
 }
 
 const deleteBook = async(req,res) =>{
-    const id = req.params
+    const {id} = req.params
     try {
         const checkBook = await prisma.book.findMany({
             where:{
@@ -120,6 +120,8 @@ const deleteBook = async(req,res) =>{
                 book_id:parseInt(id)
             }
         })
+
+        res.json({info : 'Buku berhasil dihapus.'})
     }
     catch(err){
         console.error(err)
