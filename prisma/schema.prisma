@@ -25,6 +25,7 @@ model Member {
 model Book {
   book_id Int @id @default(autoincrement())
   title String
+  code String
   quantity Int 
   borrowedBooks BorrowedBook[]
 }
