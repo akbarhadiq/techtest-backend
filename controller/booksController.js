@@ -21,7 +21,7 @@ const getBookById = async(req,res) => {
             }
         })
 
-        if(!book) {
+        if(book.length === 0) {
             return res.status(404).json({info : 'Buku tidak Ditemukan'})
         }
 
@@ -73,7 +73,8 @@ const updateBook = async(req,res) => {
     const {title, stock,code} = req.body
 
     try{
-        const book = await prisma.findMany({
+
+        const book = await prisma.book.findUnique({
             where:{
                 book_id:parseInt(id)
             }
@@ -83,9 +84,10 @@ const updateBook = async(req,res) => {
             return res.status(404).json({info:"Buku tidak ditemukan"})
         }
 
+        console.log(book)
         await prisma.book.update({
             where:{
-                book_id:id
+                book_id:parseInt(id)
             },
             data:{
                 title:title,
@@ -94,6 +96,7 @@ const updateBook = async(req,res) => {
             }
         })
 
+        return res.json({Info:'Buku berhasil di update'})
 
     }
     catch(err){
@@ -105,7 +108,7 @@ const updateBook = async(req,res) => {
 const deleteBook = async(req,res) =>{
     const {id} = req.params
     try {
-        const checkBook = await prisma.book.findMany({
+        const checkBook = await prisma.book.findUnique({
             where:{
                 book_id:parseInt(id)
             }
