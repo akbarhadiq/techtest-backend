@@ -17,7 +17,7 @@ const getBookById = async(req,res) => {
     try{
         const book = await prisma.book.findMany({
             where:{
-                book_id:id
+                book_id:parseInt(id)
             }
         })
 
@@ -71,7 +71,7 @@ const updateBook = async(req,res) => {
     try{
         const book = await prisma.findMany({
             where:{
-                book_id:id
+                book_id:parseInt(id)
             }
         })
 
@@ -103,7 +103,7 @@ const deleteBook = async(req,res) =>{
     try {
         const checkBook = await prisma.book.findMany({
             where:{
-                book_id:id
+                book_id:parseInt(id)
             }
         })
 
@@ -113,7 +113,7 @@ const deleteBook = async(req,res) =>{
 
         await prisma.book.delete({
             where:{
-                book_id:id
+                book_id:parseInt(id)
             }
         })
     }
