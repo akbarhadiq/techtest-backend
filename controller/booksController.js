@@ -36,6 +36,10 @@ const getBookById = async(req,res) => {
 
 const addNewBook = async(req,res) => {
     const {title, stock, code} = req.body
+
+    if(!title || !stock || !code){
+        return res.status(401).json({Info : 'Data buku tidak lengkap'})
+    }
     try{
 
         const isBookAlreadyAvailable = await prisma.book.findFirst({
