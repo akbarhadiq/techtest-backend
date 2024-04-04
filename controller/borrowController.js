@@ -4,6 +4,7 @@ const {DateTime} = require('luxon')
 
 // Pinjam Buku
 const borrowBooks = async(req,res) => {
+    // #swagger.tags = ['Meminjam Buku']
     const {member_id, book_id} = req.body
 
     try{
@@ -84,6 +85,7 @@ const borrowBooks = async(req,res) => {
 
 // Return Buku
 const returnBooks = async(req,res)=>{
+    // #swagger.tags = ['Mengembalikan Buku']
     // res.send('Hello!')
     const {member_id , book_id} = req.body
     try{

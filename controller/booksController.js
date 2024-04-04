@@ -2,6 +2,7 @@ const {PrismaClient} = require('@prisma/client')
 const prisma = new PrismaClient()
 
 const getAllBooks = async(req,res)=>{
+    // #swagger.tags = ['Books']
     try{
         let allBooks = await prisma.book.findMany()
 
@@ -16,6 +17,7 @@ const getAllBooks = async(req,res)=>{
 }
 
 const getBookById = async(req,res) => {
+    // #swagger.tags = ['Books']
     const {id} = req.params
     try{
         const book = await prisma.book.findMany({
@@ -38,6 +40,7 @@ const getBookById = async(req,res) => {
 }
 
 const addNewBook = async(req,res) => {
+    // #swagger.tags = ['Books']
     const {title, stock, code} = req.body
 
     if(!title || !stock || !code){
@@ -72,6 +75,7 @@ const addNewBook = async(req,res) => {
 }
 
 const updateBook = async(req,res) => {
+    // #swagger.tags = ['Books']
     const {id} = req.params
     const {title, stock,code} = req.body
 
@@ -109,6 +113,7 @@ const updateBook = async(req,res) => {
 }
 
 const deleteBook = async(req,res) =>{
+    // #swagger.tags = ['Books']
     const {id} = req.params
     try {
         const checkBook = await prisma.book.findUnique({
@@ -121,7 +126,7 @@ const deleteBook = async(req,res) =>{
             return res.status(404).json('Buku tidak ditemukan')
         }
 
-        await prisma.book.delete({
+        await prisma.book.deleteMany({
             where:{
                 book_id:parseInt(id)
             }

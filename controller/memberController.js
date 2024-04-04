@@ -2,7 +2,7 @@ const {PrismaClient} = require('@prisma/client')
 const prisma = new PrismaClient()
 
 const getAllMember = async(req,res) => {
-
+    // #swagger.tags = ['Member']
     try{
         const allMember = await prisma.member.findMany()
         res.json(allMember)
@@ -16,8 +16,8 @@ const getAllMember = async(req,res) => {
 }
 
 const getMemberById = async(req,res)=>{
+    // #swagger.tags = ['Member']
     const {id} = req.params
-
     try{
         const member = await prisma.member.findMany({
             where:{
@@ -34,6 +34,7 @@ const getMemberById = async(req,res)=>{
 }
 
 const getMemberByIdWithBorrowedBooks = async(req,res)=>{
+    // #swagger.tags = ['Member']
     const {id} = req.params
     try{
         const member = await prisma.member.findUnique({
@@ -63,6 +64,7 @@ const getMemberByIdWithBorrowedBooks = async(req,res)=>{
 }
 
 const createMember = async(req,res)=>{
+    // #swagger.tags = ['Member']
     const {name} = req.body;
     const memberCount = await prisma.member.count();
 
@@ -84,9 +86,10 @@ const createMember = async(req,res)=>{
 }
 
 const deleteMember = async(req,res)=>{
+    // #swagger.tags = ['Member']
     const id = req.params
     try{
-        await prisma.member.delete({
+        await prisma.member.deleteMany({
             where:{
                 member_id:parseInt(id)
             }
