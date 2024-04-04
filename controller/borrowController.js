@@ -83,7 +83,10 @@ const borrowBooks = async(req,res) => {
 }
 
 // Return Buku
+const returnBooks = async(req,res)=>{
+    res.send('Hello!')
+}
 
 module.exports = {
-    borrowBooks
+    borrowBooks, returnBooks
 }

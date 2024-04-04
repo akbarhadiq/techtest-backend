@@ -33,6 +33,35 @@ const getMemberById = async(req,res)=>{
     }
 }
 
+const getMemberByIdWithBorrowedBooks = async(req,res)=>{
+    const {id} = req.params
+    try{
+        const member = await prisma.member.findUnique({
+            where:{
+                member_id:parseInt(id)
+            },
+            include:{
+                borrowedBooks:{
+                    include:{
+                        Book:true
+                    }
+                }
+            }
+        })
+
+        if(!member){
+            return res.status(404).json({Info : 'Member tidak dapat ditemukan'})
+        }
+
+        member.borrowed_books_count = member.borrowedBooks.length
+        return res.json(member)
+    }
+    catch(err){
+        console.error(err)
+        res.status(500).json(err)
+    }
+}
+
 const createMember = async(req,res)=>{
     const {name} = req.body;
     const memberCount = await prisma.member.count();
@@ -71,5 +100,6 @@ const deleteMember = async(req,res)=>{
 }
 
 module.exports = {
-    getAllMember, getMemberById, createMember, deleteMember
+    getAllMember, getMemberById, createMember, deleteMember,
+    getMemberByIdWithBorrowedBooks
 }
