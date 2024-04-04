@@ -3,7 +3,10 @@ const prisma = new PrismaClient()
 
 const getAllBooks = async(req,res)=>{
     try{
-        const allBooks = await prisma.book.findMany()
+        let allBooks = await prisma.book.findMany()
+
+        // filter buku yang dipinjam (habis)
+        allBooks = allBooks.filter(book=>book.stock>0);
         res.json(allBooks)
     }
     catch(err){
