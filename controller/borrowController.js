@@ -118,8 +118,8 @@ const returnBooks = async(req,res)=>{
         const jarak_hari = return_date.diff(borrow_date, 'days').days
         // console.log(jarak_hari)
 
+        // jarak lebih besar dari 7 hari
         if(jarak_hari >= 7) {
-
             // penalty user
             await prisma.member.update({
                 where:{
