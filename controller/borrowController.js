@@ -123,7 +123,7 @@ const returnBooks = async(req,res)=>{
             // penalty user
             await prisma.member.update({
                 where:{
-                    member_id:member_id
+                    member_id:parseInt(member_id)
                 },
                 data:{
                     penalty_status:{
@@ -146,7 +146,7 @@ const returnBooks = async(req,res)=>{
             // kembalikan stock buku
             await prisma.book.update({
                 where:{
-                    book_id:book_id
+                    book_id:parseInt(book_id)
                 },
                 data:{
                     stock:{
@@ -158,8 +158,8 @@ const returnBooks = async(req,res)=>{
             // hapus data peminjaman
             await prisma.borrowedBook.delete({
                 where:{
-                    member_id:member_id,
-                    book_id:book_id
+                    member_id:parseInt(member_id),
+                    book_id:parseInt(book_id)
                 }
             })
 
