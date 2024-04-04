@@ -2,6 +2,7 @@ const {PrismaClient} = require('@prisma/client')
 const prisma = new PrismaClient()
 const {DateTime} = require('luxon')
 
+// Pinjam Buku
 const borrowBooks = async(req,res) => {
     const {member_id, book_id} = req.body
 
@@ -34,7 +35,7 @@ const borrowBooks = async(req,res) => {
         // cek apakah buku ada
         const bookToBorrow = await prisma.book.findUnique({
             where:{
-                book_id:book_id
+                book_id:parseInt(book_id)
             }
         })
     
@@ -52,7 +53,7 @@ const borrowBooks = async(req,res) => {
         // kurangi jumlah stok buku
         await prisma.book.update({
             where:{
-                book_id:book_id
+                book_id:parseInt(book_id)
             },
             data :{
                 stock:bookToBorrow.stock - 1
@@ -63,8 +64,8 @@ const borrowBooks = async(req,res) => {
     
         await prisma.borrowedBook.create({
             data:{
-                book_id:book_id,
-                member_id:member_id,
+                book_id:parseInt(book_id),
+                member_id:parseInt(member_id),
                 borrow_date:DateTime.now().setZone('Asia/Jakarta')
             }
         })
@@ -80,6 +81,8 @@ const borrowBooks = async(req,res) => {
 
     
 }
+
+// Return Buku
 
 module.exports = {
     borrowBooks
