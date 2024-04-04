@@ -19,6 +19,7 @@ model Member {
   name String
   penalty_status Boolean @default(false)
   borrowedBooks BorrowedBook[]
+  userBorrowHistory userBorrowHistory[]
 
 }
 
@@ -28,6 +29,7 @@ model Book {
   code String
   stock Int 
   borrowedBooks BorrowedBook[]
+  userBorrowHistory userBorrowHistory[]
 }
 
 model BorrowedBook {
@@ -41,3 +43,13 @@ model BorrowedBook {
   book_id Int
 }
 
+model userBorrowHistory {
+  id Int @id @default(autoincrement())
+  borrow_date DateTime
+  return_date DateTime?
+  penalty_applied Boolean
+  Member Member @relation(fields:[member_id], references:[member_id])
+  member_id Int
+  Book Book @relation(fields: [book_id], references: [book_id])
+  book_id Int
+}

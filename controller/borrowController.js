@@ -84,7 +84,127 @@ const borrowBooks = async(req,res) => {
 
 // Return Buku
 const returnBooks = async(req,res)=>{
-    res.send('Hello!')
+    // res.send('Hello!')
+    const {member_id , book_id} = req.body
+    try{
+
+        const return_date = DateTime.now().setZone("Asia/Jakarta")
+
+        const borrowed_books = await prisma.borrowedBook.findMany({
+            where:{
+                member_id:parseInt(member_id)
+            }
+        })
+    
+        if(!borrowed_books){
+            res.status(404).json({Info:"Member tidak meminjam buku."})
+        }
+    
+        // check apakah buku yang di return ada dalam borrowed books
+        const checkBookReturn = (bookId) => borrowed_books.some(book=>book.book_id = bookId)
+        if(!checkBookReturn){
+            return res.status(400).json({Info:'User tidak meminjam buku ini'})
+        }
+
+        // check waktu pengembalian, jika pengembalian lebih dari 7 hari maka status penalti menjadi true
+
+        let borrow_date = borrowed_books[0].borrow_date
+        // console.log(borrow_date)
+        borrow_date = DateTime.fromJSDate(borrow_date)
+        // console.log(borrow_date)
+
+        // console.log(return_date)
+
+        const jarak_hari = return_date.diff(borrow_date, 'days').days
+        // console.log(jarak_hari)
+
+        if(jarak_hari >= 7) {
+
+            // penalty user
+            await prisma.member.update({
+                where:{
+                    member_id:member_id
+                },
+                data:{
+                    penalty_status:{
+                        set:true
+                    }
+                }
+            })
+
+            // masukan userBorrow history
+            await prisma.userBorrowHistory.create({
+                data:{
+                    borrow_date:borrow_date,
+                    return_date:return_date,
+                    penalty_applied:true,
+                    member_id:member_id,
+                    book_id:book_id
+                }
+            })
+
+            // kembalikan stock buku
+            await prisma.book.update({
+                where:{
+                    book_id:book_id
+                },
+                data:{
+                    stock:{
+                        increment:1
+                    }
+                }
+            })
+
+            // hapus data peminjaman
+            await prisma.borrowedBook.delete({
+                where:{
+                    member_id:member_id,
+                    book_id:book_id
+                }
+            })
+
+            return res.json({Info:'Berhasil mengembalikan buku, user terkena penalti karena mengembalikan lebih dari 7 hari'})
+        }
+
+        // kalau kurang dari 7 hari return secara normal
+
+        // masukan userBorrow history
+        await prisma.userBorrowHistory.create({
+            data:{
+                borrow_date:borrow_date,
+                return_date:return_date,
+                penalty_applied:false,
+                member_id:member_id,
+                book_id:book_id
+            }
+        })
+
+        // kembalikan stock buku
+        await prisma.book.update({
+            where:{
+                book_id:book_id
+            },
+            data:{
+                stock:{
+                    increment:1
+                }
+            }
+        })
+
+        // hapus data peminjaman
+        await prisma.borrowedBook.delete({
+            where:{
+                member_id:member_id,
+                book_id:book_id
+            }
+        })
+        
+    }
+    catch(err){
+        console.error(err)
+        res.status(500).json(err)
+    }
+   
 }
 
 module.exports = {
