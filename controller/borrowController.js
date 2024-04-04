@@ -156,7 +156,7 @@ const returnBooks = async(req,res)=>{
             })
 
             // hapus data peminjaman
-            await prisma.borrowedBook.delete({
+            await prisma.borrowedBook.deleteMany({
                 where:{
                     member_id:parseInt(member_id),
                     book_id:parseInt(book_id)
@@ -192,12 +192,14 @@ const returnBooks = async(req,res)=>{
         })
 
         // hapus data peminjaman
-        await prisma.borrowedBook.delete({
+        await prisma.borrowedBook.deleteMany({
             where:{
                 member_id:member_id,
                 book_id:book_id
             }
         })
+
+        res.json({Info : 'Buku berhasil dikembalikan'})
         
     }
     catch(err){
