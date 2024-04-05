@@ -3,6 +3,7 @@ const prisma = new PrismaClient()
 
 const getAllMember = async(req,res) => {
     // #swagger.tags = ['Member']
+    // #swagger.summary = 'Ambil Data Member Basic'
     try{
         const allMember = await prisma.member.findMany()
         res.json(allMember)
@@ -17,6 +18,7 @@ const getAllMember = async(req,res) => {
 
 const getMemberById = async(req,res)=>{
     // #swagger.tags = ['Member']
+    // #swagger.summary = 'Ambil Data Member Berdasarkan ID - Basic'
     const {id} = req.params
     try{
         const member = await prisma.member.findMany({
@@ -35,6 +37,7 @@ const getMemberById = async(req,res)=>{
 
 const getMemberByIdWithBorrowedBooks = async(req,res)=>{
     // #swagger.tags = ['Member']
+    // #swagger.summary = 'Ambil Data Member, Dengan Buku Yang Mereka Pinjam'
     const {id} = req.params
     try{
         const member = await prisma.member.findUnique({
@@ -65,6 +68,19 @@ const getMemberByIdWithBorrowedBooks = async(req,res)=>{
 
 const createMember = async(req,res)=>{
     // #swagger.tags = ['Member']
+    // #swagger.summary = 'Tambah Data Member'
+        /* #swagger.requestBody = {
+            required: true,
+            content: {
+                "application/json": {
+                    schema: { $ref: "#/components/schemas/MemberSchema" },
+                    example: { 
+                        name:"Fernando Alonso"
+                    }
+                }
+            }
+        }
+    */
     const {name} = req.body;
     const memberCount = await prisma.member.count();
 
@@ -87,6 +103,7 @@ const createMember = async(req,res)=>{
 
 const deleteMember = async(req,res)=>{
     // #swagger.tags = ['Member']
+    // #swagger.summary = 'Hapus Data Member'
     const id = req.params
     try{
         await prisma.member.deleteMany({

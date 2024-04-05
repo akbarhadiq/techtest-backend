@@ -21,6 +21,7 @@
         "tags": [
           "Member"
         ],
+        "summary": "Ambil Data Member Basic",
         "description": "",
         "responses": {
           "200": {
@@ -35,6 +36,7 @@
         "tags": [
           "Member"
         ],
+        "summary": "Tambah Data Member",
         "description": "",
         "responses": {
           "200": {
@@ -45,15 +47,14 @@
           }
         },
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "example": "any"
-                  }
-                }
+                "$ref": "#/components/schemas/MemberSchema"
+              },
+              "example": {
+                "name": "Fernando Alonso"
               }
             }
           }
@@ -65,6 +66,7 @@
         "tags": [
           "Member"
         ],
+        "summary": "Ambil Data Member, Dengan Buku Yang Mereka Pinjam",
         "description": "",
         "parameters": [
           {
@@ -94,6 +96,7 @@
         "tags": [
           "Member"
         ],
+        "summary": "Ambil Data Member Berdasarkan ID - Basic",
         "description": "",
         "parameters": [
           {
@@ -118,6 +121,7 @@
         "tags": [
           "Member"
         ],
+        "summary": "Hapus Data Member",
         "description": "",
         "parameters": [
           {
@@ -144,6 +148,7 @@
         "tags": [
           "Books"
         ],
+        "summary": "Seluruh Buku yang ada dan Tidak Dipinjam/Dipinjam Tapi masih ada Stock-nya.",
         "description": "",
         "responses": {
           "200": {
@@ -158,6 +163,7 @@
         "tags": [
           "Books"
         ],
+        "summary": "Tambah Buku Baru",
         "description": "",
         "responses": {
           "200": {
@@ -168,21 +174,16 @@
           }
         },
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "title": {
-                    "example": "any"
-                  },
-                  "stock": {
-                    "example": "any"
-                  },
-                  "code": {
-                    "example": "any"
-                  }
-                }
+                "$ref": "#/components/schemas/BookSchema"
+              },
+              "example": {
+                "title": "Catcher in The Rye",
+                "code": "CATCH1",
+                "stock": 10
               }
             }
           }
@@ -194,6 +195,7 @@
         "tags": [
           "Books"
         ],
+        "summary": "Ambil Buku Berdasarkan ID",
         "description": "",
         "parameters": [
           {
@@ -221,6 +223,7 @@
         "tags": [
           "Books"
         ],
+        "summary": "Update Data Buku Berdasarkan ID",
         "description": "",
         "parameters": [
           {
@@ -244,21 +247,16 @@
           }
         },
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "title": {
-                    "example": "any"
-                  },
-                  "stock": {
-                    "example": "any"
-                  },
-                  "code": {
-                    "example": "any"
-                  }
-                }
+                "$ref": "#/components/schemas/BookSchema"
+              },
+              "example": {
+                "title": "Catcher in The Rye",
+                "code": "CATCH1",
+                "stock": 15
               }
             }
           }
@@ -268,6 +266,7 @@
         "tags": [
           "Books"
         ],
+        "summary": "Hapus Data Buku Berdasarkan ID",
         "description": "",
         "parameters": [
           {
@@ -297,6 +296,7 @@
         "tags": [
           "Meminjam Buku"
         ],
+        "summary": "Meminjam Buku",
         "description": "",
         "responses": {
           "200": {
@@ -313,18 +313,15 @@
           }
         },
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "member_id": {
-                    "example": "any"
-                  },
-                  "book_id": {
-                    "example": "any"
-                  }
-                }
+                "$ref": "#/components/schemas/BorrowDataSchema"
+              },
+              "example": {
+                "member_id": 1,
+                "book_id": 4
               }
             }
           }
@@ -336,6 +333,7 @@
         "tags": [
           "Mengembalikan Buku"
         ],
+        "summary": "Mengembalikan Buku",
         "description": "",
         "responses": {
           "200": {
@@ -352,18 +350,15 @@
           }
         },
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "member_id": {
-                    "example": "any"
-                  },
-                  "book_id": {
-                    "example": "any"
-                  }
-                }
+                "$ref": "#/components/schemas/BorrowDataSchema"
+              },
+              "example": {
+                "member_id": 1,
+                "book_id": 4
               }
             }
           }
@@ -376,6 +371,68 @@
       "bearerAuth": {
         "type": "http",
         "scheme": "bearer"
+      }
+    },
+    "schemas": {
+      "BookSchema": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "Book Title"
+          },
+          "code": {
+            "type": "string",
+            "example": "Unique Book Code"
+          },
+          "stock": {
+            "type": "number",
+            "example": 10
+          }
+        },
+        "required": [
+          "title",
+          "code",
+          "stock"
+        ]
+      },
+      "MemberSchema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Member Name"
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "BorrowDataSchema": {
+        "type": "object",
+        "properties": {
+          "member_id": {
+            "type": "number",
+            "example": 1
+          },
+          "book_id": {
+            "type": "number",
+            "example": 5
+          }
+        },
+        "required": [
+          "member_id",
+          "book_id"
+        ]
+      }
+    },
+    "examples": {
+      "bookExample": {
+        "value": {
+          "title": "Catcher in The Rye",
+          "code": "CATCH1",
+          "stock": 1
+        }
       }
     }
   }

@@ -5,6 +5,20 @@ const {DateTime} = require('luxon')
 // Pinjam Buku
 const borrowBooks = async(req,res) => {
     // #swagger.tags = ['Meminjam Buku']
+    // #swagger.summary = 'Meminjam Buku'
+        /* #swagger.requestBody = {
+            required: true,
+            content: {
+                "application/json": {
+                    schema: { $ref: "#/components/schemas/BorrowDataSchema" },
+                    example: { 
+                        member_id:1,
+                        book_id:4
+                    }
+                }
+            }
+        }
+    */
     const {member_id, book_id} = req.body
 
     try{
@@ -86,6 +100,20 @@ const borrowBooks = async(req,res) => {
 // Return Buku
 const returnBooks = async(req,res)=>{
     // #swagger.tags = ['Mengembalikan Buku']
+    // #swagger.summary = 'Mengembalikan Buku'
+     /* #swagger.requestBody = {
+            required: true,
+            content: {
+                "application/json": {
+                    schema: { $ref: "#/components/schemas/BorrowDataSchema" },
+                    example: { 
+                        member_id:1,
+                        book_id:4
+                    }
+                }
+            }
+        }
+    */
     // res.send('Hello!')
     const {member_id , book_id} = req.body
     try{

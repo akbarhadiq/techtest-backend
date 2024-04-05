@@ -4,6 +4,8 @@ const doc = {
       title: 'Books API',
       description: 'Description'
     },
+    definitions:{
+    },
     host: process.env.HOST,
     components: {
       securitySchemes:{
@@ -11,6 +13,29 @@ const doc = {
               type: 'http',
               scheme: 'bearer'
           }
+      },
+      schemas:{
+        BookSchema:{
+            $title:'Book Title',
+            $code:'Unique Book Code',
+            $stock:10
+        },
+        MemberSchema:{
+            $name:'Member Name'
+        },
+        BorrowDataSchema:{
+            $member_id:1,
+            $book_id:5
+        }
+      },
+      examples:{
+        bookExample:{
+            value:{
+                title:"Catcher in The Rye",
+                code:"CATCH1",
+                stock:1
+            }
+        }
       }
     }
   };

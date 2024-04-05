@@ -3,6 +3,8 @@ const prisma = new PrismaClient()
 
 const getAllBooks = async(req,res)=>{
     // #swagger.tags = ['Books']
+    // #swagger.summary = 'Seluruh Buku yang ada dan Tidak Dipinjam/Dipinjam Tapi masih ada Stock-nya.'
+
     try{
         let allBooks = await prisma.book.findMany()
 
@@ -18,6 +20,7 @@ const getAllBooks = async(req,res)=>{
 
 const getBookById = async(req,res) => {
     // #swagger.tags = ['Books']
+    // #swagger.summary = 'Ambil Buku Berdasarkan ID'
     const {id} = req.params
     try{
         const book = await prisma.book.findMany({
@@ -41,6 +44,21 @@ const getBookById = async(req,res) => {
 
 const addNewBook = async(req,res) => {
     // #swagger.tags = ['Books']
+    // #swagger.summary = 'Tambah Buku Baru'
+    /* #swagger.requestBody = {
+            required: true,
+            content: {
+                "application/json": {
+                    schema: { $ref: "#/components/schemas/BookSchema" },
+                    example: { 
+                        title:"Catcher in The Rye",
+                        code:"CATCH1",
+                        stock:10
+                    }
+                }
+            }
+        }
+    */
     const {title, stock, code} = req.body
 
     if(!title || !stock || !code){
@@ -76,6 +94,21 @@ const addNewBook = async(req,res) => {
 
 const updateBook = async(req,res) => {
     // #swagger.tags = ['Books']
+    // #swagger.summary = 'Update Data Buku Berdasarkan ID'
+        /* #swagger.requestBody = {
+            required: true,
+            content: {
+                "application/json": {
+                    schema: { $ref: "#/components/schemas/BookSchema" },
+                    example: { 
+                        title:"Catcher in The Rye",
+                        code:"CATCH1",
+                        stock:15
+                    }
+                }
+            }
+        }
+    */
     const {id} = req.params
     const {title, stock,code} = req.body
 
@@ -114,6 +147,7 @@ const updateBook = async(req,res) => {
 
 const deleteBook = async(req,res) =>{
     // #swagger.tags = ['Books']
+    // #swagger.summary = 'Hapus Data Buku Berdasarkan ID'
     const {id} = req.params
     try {
         const checkBook = await prisma.book.findUnique({
